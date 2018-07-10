@@ -1,4 +1,4 @@
-# Chatbot Tra cứu điểm thi THPT Quốc Gia 2017
+# Chatbot Tra cứu điểm thi THPT Quốc Gia 2018
 Điểm thi được cập nhật từ http://diemthi.vnexpress.net
 
 [Demo](https://www.facebook.com/so3botrach/videos/1383843391670405/)
@@ -12,5 +12,5 @@
 - Sửa mục `Welcome message`
 <img src="http://i.imgur.com/upr47Af.png" />
 - Sửa mục `Default Answer`
-<img src="http://i.imgur.com/znq97Ts.png" />
+<img src="https://i.imgur.com/fTD6TVs.png" />
 - Test Chatbot :D
