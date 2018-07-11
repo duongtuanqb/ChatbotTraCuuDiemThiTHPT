@@ -28,15 +28,18 @@ if($html) {
 	$chatfuel->sendText($ketqua);
 
 } else {
-	$chatfuel->sendText("Không tìm thấy kết quả, bạn hãy nhập đúng số báo danh 🙏");
+	$chatfuel->sendText("Không tìm thấy kết quả, vui lòng nhập đúng số báo danh 🙏");
 }
 
 function getUser($q) {
+	$mavung = substr($q, 0, 2);
+	$sbd = substr($q, 2, strlen($q));
+
 	$ch = curl_init();
 	
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201');
-	curl_setopt($ch, CURLOPT_URL, 'http://diemthi.vnexpress.net/index/result?q='. $q .'&college=31&area=2');
+	curl_setopt($ch, CURLOPT_URL, 'http://diemthi.vnexpress.net/index/result?q='. $sbd .'&college=' . $mavung . '&area=2');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_exec($ch);
 
