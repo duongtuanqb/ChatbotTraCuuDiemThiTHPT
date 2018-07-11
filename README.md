@@ -5,8 +5,6 @@
 
 # Cài đặt
 - Tải source code về
-- Sửa file index.php
-- Tìm `&college=31&area=2` sửa `31` thành mã tỉnh cần tra
 - Upload source code lên host
 - Vào [Chatfuel](https://chatfuel.com/) tạo tài khoản và liên kết với Fanpage cần tạo chatbot
 - Sửa mục `Welcome message`
