@@ -12,19 +12,25 @@ $chatfuel = new Chatfuel(TRUE);
 $html = getUser($_GET["sbd"]);
 
 if($html) {
+	$results = [];
+	$getMon = (new Document($html))->find('.width_monhoc');
+	$getDiem = (new Document($html))->find('.width_sbd');
+	$getDiem = array_slice($getDiem, 3);
 
-	$getUser = (new Document($html))->find('.width_name a')[0]->getAttribute('href');
-
-	$getName = (new Document(getDiem($getUser)))->find('.name_thisinh')[0];
-	$getDiem = (new Document(getDiem($getUser)))->find('.monthi_thisinh ul li');
-
-	$chatfuel->sendText(👤.strip_tags($getName));
-
-	$ketqua = '';
-	foreach ($getDiem as $diem) {
-
-		$ketqua .= preg_replace("/[\\n\\r]+/", "💯 ", strip_tags($diem), 1);
+	foreach ($getMon as $key => $value) {
+		$results[$value->text()] = $getDiem[$key+1]->text();
 	}
+
+	$getSDB = (new Document($html))->find('.width_sbd a')[0]->text();
+	$ketqua = "Thí sinh SDB: $getSDB \n";
+
+	foreach ($results as $mon => $diem) {
+		if(!$diem) {
+			continue;
+		}
+		$ketqua .= "💯 $mon: $diem \n"; 
+	}
+
 	$chatfuel->sendText($ketqua);
 
 } else {
@@ -33,21 +39,22 @@ if($html) {
 
 function getUser($q) {
 	$mavung = substr($q, 0, 2);
-	$sbd = substr($q, 2, strlen($q));
 
 	$ch = curl_init();
 	
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201');
-	curl_setopt($ch, CURLOPT_URL, 'http://diemthi.vnexpress.net/index/result?q='. $sbd .'&college=' . $mavung . '&area=2');
+	curl_setopt($ch, CURLOPT_URL, 'http://diemthi.vnexpress.net/index/result?q='. $q .'&college=' . $mavung . '&area=2');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
 	curl_exec($ch);
 
 	$resurt = curl_exec($ch);
 
 	curl_close($ch);
 
-	$data = json_decode($resurt, true)['data'];
+	$data = json_decode($resurt, true)["data"];
 
 	if($data == 'Không tìm thấy kết quả') return false;
 
